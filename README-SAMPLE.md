@@ -1,42 +1,54 @@
-# Hello World
+# ERC20 Token
 
-This Solidity program is a simple "Hello World" program that demonstrates the basic syntax and functionality of the Solidity programming language. The purpose of this program is to serve as a starting point for those who are new to Solidity and want to get a feel for how it works.
+This Solidity program is a simple  program that demonstrates the basic syntax and functionality of the Solidity programming language. The purpose of this program is to serve as a starting point for those who are new to Solidity and want to get a feel for how it works.
 
 ## Description
 
-This program is a simple contract written in Solidity, a programming language used for developing smart contracts on the Ethereum blockchain. The contract has a single function that returns the string "Hello World!". This program serves as a simple and straightforward introduction to Solidity programming, and can be used as a stepping stone for more complex projects in the future.
+To run this program, you can use Remix, an online Solidity IDE.
 
-## Getting Started
+Go to the Remix website at https://remix.ethereum.org/ then create a new file by clicking on the "+" icon in the left-hand sidebar. Save the file with a .sol extension.
 
-### Executing program
+To compile the code, click on the "Solidity Compiler" tab in the left-hand sidebar. Make sure the "Compiler" option is set to "0.8.26" (or another compatible version), and then click on the Compile "ERC20 Token.sol" button.
 
-To run this program, you can use Remix, an online Solidity IDE. To get started, go to the Remix website at https://remix.ethereum.org/.
+Once the code is compiled, click "Deploy & Run Transactions" tab in the left-hand sidebar. Select the "ERC20 Token.sol" contract from the dropdown menu, type in the name that you want for the contract and then click on the "Deploy" button.
 
-Once you are on the Remix website, create a new file by clicking on the "+" icon in the left-hand sidebar. Save the file with a .sol extension (e.g., HelloWorld.sol). Copy and paste the following code into the file:
+Proceed to the dropdown of whatever you have named your contract to interact with the user interface that will let you call on the different functions in here. If you want to test the three requirements:
+
+Only the owner can mint tokens.
+Any account can burn tokens.
+Any account can transfer tokens.
+Be mindful of the account that you are using, it may get confusing at times. Be sure that you have copied the right account as well to avoid getting confused.
+
+Notes: To change accounts, click the "Deploy & Run Transactions" and click on the "Accounts" Drop down to select an account to use for minting, burning, and transferring. To copy the account code, click the button furthest from the "Accounts" label above the dropdown, copy it to the text box beside mint or burn to use that account for a specific function.
 
 ```javascript
-pragma solidity ^0.8.4;
 
-contract HelloWorld {
-    function sayHello() public pure returns (string memory) {
-        return "Hello World!";
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+contract MyToken is ERC20 {
+    address public owner;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not the contract owner");
+        _;
+    }
+
+    constructor(string memory name, string memory symbol) ERC20(name, symbol) {
+        owner = msg.sender;
+    }
+
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
+    }
+
+    function burn(uint256 amount) public {
+        _burn(msg.sender, amount);
     }
 }
-
 ```
-
-To compile the code, click on the "Solidity Compiler" tab in the left-hand sidebar. Make sure the "Compiler" option is set to "0.8.4" (or another compatible version), and then click on the "Compile HelloWorld.sol" button.
-
-Once the code is compiled, you can deploy the contract by clicking on the "Deploy & Run Transactions" tab in the left-hand sidebar. Select the "HelloWorld" contract from the dropdown menu, and then click on the "Deploy" button.
-
-Once the contract is deployed, you can interact with it by calling the sayHello function. Click on the "HelloWorld" contract in the left-hand sidebar, and then click on the "sayHello" function. Finally, click on the "transact" button to execute the function and retrieve the "Hello World!" message.
-
 ## Authors
 
-Metacrafter Chris  
-[@metacraftersio](https://twitter.com/metacraftersio)
-
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE.md file for details
+Elijah Raphael A. Gaylan
