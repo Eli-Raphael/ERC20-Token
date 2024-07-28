@@ -22,4 +22,9 @@ contract MyToken is ERC20 {
     function burn(uint256 amount) public {
         _burn(msg.sender, amount);
     }
+
+    function transfer(address recipient, uint256 amount) public override returns (bool) {
+        _transfer(_msgSender(), recipient, amount);
+        return true;
+    }
 }
