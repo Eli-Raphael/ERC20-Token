@@ -1,8 +1,10 @@
 # ERC20 Token
 
-This Solidity program is a simple  program that demonstrates the basic syntax and functionality of the Solidity programming language. The purpose of this program is to serve as a starting point for those who are new to Solidity and want to get a feel for how it works.
+This Solidity program is a demonstration of a contract that has different authorization levels.
 
 ## Description
+
+In this contract, there are different permissions for the type of user. The owner is the sole user who has exclusive rights to mint new tokens, ensuring a controlled token supply. Other users can burn and transfer their tokens, but they are not allowed to mint. It basically shows real-life application of blockchain transactions and even cash payment. 
 
 ## Getting Started
 
@@ -38,7 +40,13 @@ contract MyToken is ERC20 {
     function burn(uint256 amount) public {
         _burn(msg.sender, amount);
     }
+
+    function transfer(address recipient, uint256 amount) public override returns (bool) {
+        _transfer(_msgSender(), recipient, amount);
+        return true;
+    }
 }
+
 ```
 
 To compile the code, click on the "Solidity Compiler" tab in the left-hand sidebar. Make sure the "Compiler" option is set to "0.8.26" (or another compatible version), and then click on the Compile "ERC20 Token.sol" button.
